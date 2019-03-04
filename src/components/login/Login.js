@@ -83,7 +83,7 @@ class Login extends React.Component {
    * HTTP POST request is sent to the backend.
    * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
    */
-  login() {
+  login(username, password) {
     fetch(`${getDomain()}/users`, {
       method: "POST",
       headers: {
@@ -109,6 +109,10 @@ class Login extends React.Component {
           alert(`Something went wrong during the login: ${err.message}`);
         }
       });
+  }
+
+  registerButton(){
+    this.props.history.push(`/register`);
   }
 
   /**
@@ -143,22 +147,31 @@ class Login extends React.Component {
                 this.handleInputChange("username", e.target.value);
               }}
             />
-            <Label>Name</Label>
+            <Label>Password</Label>
             <InputField
               placeholder="Enter here.."
               onChange={e => {
-                this.handleInputChange("name", e.target.value);
+                this.handleInputChange("password", e.target.value);
               }}
             />
             <ButtonContainer>
               <Button
-                disabled={!this.state.username || !this.state.name}
-                width="50%"
+                disabled={!this.state.username || !this.state.password}
+                width="40%"
                 onClick={() => {
                   this.login();
                 }}
               >
                 Login
+              </Button>
+              <Button
+                  disabled={!this.state.username || !this.state.password}
+                  width="40%"
+                  onClick={() => {
+                    this.registerButton();
+                  }}
+              >
+                Register
               </Button>
             </ButtonContainer>
           </Form>
