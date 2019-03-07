@@ -65,6 +65,7 @@ const ButtonContainer = styled.div`
  * https://reactjs.org/docs/react-component.html
  * @Class
  */
+
 class Login extends React.Component {
   /**
    * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
@@ -83,7 +84,7 @@ class Login extends React.Component {
    * HTTP POST request is sent to the backend.
    * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
    */
-  login(username, password) {
+  login() {
     fetch(`${getDomain()}/users`, {
       method: "POST",
       headers: {
@@ -109,10 +110,6 @@ class Login extends React.Component {
           alert(`Something went wrong during the login: ${err.message}`);
         }
       });
-  }
-
-  registerButton(){
-    this.props.history.push(`/register`);
   }
 
   /**
@@ -147,28 +144,28 @@ class Login extends React.Component {
                 this.handleInputChange("username", e.target.value);
               }}
             />
-            <Label>Password</Label>
+            <Label>Name</Label>
             <InputField
               placeholder="Enter here.."
               onChange={e => {
-                this.handleInputChange("password", e.target.value);
+                this.handleInputChange("name", e.target.value);
               }}
             />
             <ButtonContainer>
               <Button
-                disabled={!this.state.username || !this.state.password}
-                width="40%"
+                disabled={!this.state.username || !this.state.name}
+                width="50%"
                 onClick={() => {
                   this.login();
                 }}
-              >
-                Login
-              </Button>
+            >
+              Login
+            </Button>
               <Button
-                  disabled={!this.state.username || !this.state.password}
-                  width="40%"
+                  disabled={!this.state.username || !this.state.name}
+                  width="50%"
                   onClick={() => {
-                    this.registerButton();
+                    this.login();
                   }}
               >
                 Register
