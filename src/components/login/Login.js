@@ -92,7 +92,7 @@ class Login extends React.Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password //need to be changed to password on the server side
+        password: this.state.password
       })
     })
       .then(response => response.json())
