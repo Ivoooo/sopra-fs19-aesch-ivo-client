@@ -85,7 +85,7 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
    */
   login() {
-    fetch(`${getDomain()}/users`, {
+    fetch(`${getDomain()}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -110,6 +110,35 @@ class Login extends React.Component {
           alert(`Something went wrong during the login: ${err.message}`);
         }
       });
+  }
+
+  register() {
+    fetch(`${getDomain()}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    })
+        .then(response => response.json())
+        .then(returnedUser => {
+          const user = new User(returnedUser);
+          // store the token into the local storage
+          localStorage.setItem("token", user.token);
+          // user login successfully worked --> navigate to the route /game in the GameRouter
+          this.props.history.push(`/register`);
+        })
+        .catch(err => {
+          /*if (err.message.match(/Failed to fetch/)) {
+            alert("The server cannot be reached. Did you start it?");
+          } else {
+            alert(`Something went wrong during the login: ${err.message}`);
+          }*/
+          this.props.history.push(`/FailedRegister`);
+        });
   }
 
   /**
@@ -165,7 +194,7 @@ class Login extends React.Component {
                   disabled={!this.state.username || !this.state.password}
                   width="50%"
                   onClick={() => {
-                    this.login();
+                    this.register();
                   }}
               >
                 Register
