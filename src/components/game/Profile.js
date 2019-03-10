@@ -44,30 +44,14 @@ class Profile extends React.Component {
         };
     }
 
-    back() {
-        this.props.history.push("/game");
+    birthday() {
+        if(this.props.user.birthday() == null)
+            return "not defined yet";
+        return this.props.user.birthday()
     }
 
-    componentDidMount() {
-        fetch(`${getDomain()}/users`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(response => response.json())
-            .then(async users => {
-                // delays continuous execution of an async operation for 0.8 seconds.
-                // This is just a fake async call, so that the spinner can be displayed
-                // feel free to remove it :)
-                await new Promise(resolve => setTimeout(resolve, 800));
-
-                this.setState({ users });
-            })
-            .catch(err => {
-                console.log(err);
-                alert("Something went wrong fetching the users: " + err);
-            });
+    back() {
+        this.props.history.push("/game");
     }
 
     render() {
@@ -75,30 +59,41 @@ class Profile extends React.Component {
             <Container>
                 <h2>Profile Page</h2>
                 <p>Here are the user's infos:</p>
-                {!this.state.users ? (
-                    <Spinner />
-                ) : (
-                    <div>
-                        <Users>
-                            {this.state.users.map(user => {
-                                return (
-                                    <PlayerContainer key={user.id}>
-                                        <Player user={user} />
-                                    </PlayerContainer>
-                                );
-                            })}
-                        </Users>
-                        <Button
-                            width="100%"
-                            onClick={() => {
-                                this.logout();
-                            }}
-                        >
-                            Logout
-                        </Button>
-                    </div>
-                )}
+
+                <Users>
+                    <PlayerContainer>
+                        Username
+                    </PlayerContainer>
+                    {this.props.user.username}
+                </Users>
+                <Users>
+                    <PlayerContainer>
+                        Status
+                    </PlayerContainer>
+                    {this.props.user.status}
+                </Users>
+                <Users>
+                    <PlayerContainer>
+                        Creation Date
+                    </PlayerContainer>
+                    {this.props.user.creationDate}
+                </Users>
+                <Users>
+                    <PlayerContainer>
+                        Birthday
+                    </PlayerContainer>
+                    {this.birthday}
+                </Users>
+                <Button
+                    width="100%"
+                    onClick={() => {
+                        this.back();
+                    }}
+                >
+                    Get back
+                </Button>
             </Container>
+
         );
     }
 }
