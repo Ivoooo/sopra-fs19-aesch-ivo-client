@@ -40,14 +40,9 @@ class Profile extends React.Component {
     constructor() {
         super();
         this.state = {
-            user: null
+            user: null,
         };
-    }
-
-    birthday() {
-        if(this.props.user.birthday() == null)
-            return "not defined yet";
-        return this.props.user.birthday()
+        this.bday = "asdf";
     }
 
     back() {
@@ -55,6 +50,12 @@ class Profile extends React.Component {
     }
 
     render() {
+        if (this.props.user.birthday == null) {
+            this.bday = "Birthday not defined yet"
+        } else {
+            this.bday = this.props.user.birthday
+        }
+
         return (
             <Container>
                 <h2>Profile Page</h2>
@@ -82,7 +83,7 @@ class Profile extends React.Component {
                     <PlayerContainer>
                         Birthday
                     </PlayerContainer>
-                    {this.birthday}
+                    {this.bday}
                 </Users>
                 <Button
                     width="100%"
