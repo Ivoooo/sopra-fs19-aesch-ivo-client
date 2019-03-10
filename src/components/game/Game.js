@@ -6,6 +6,8 @@ import Player from "../../views/Player";
 import { Spinner } from "../../views/design/Spinner";
 import { Button } from "../../views/design/Button";
 import { withRouter } from "react-router-dom";
+import Profile from "../game/Profile";
+
 
 const Container = styled(BaseContainer)`
   color: white;
@@ -28,7 +30,8 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      users: null
+      users: null,
+      profileUser: null
     };
   }
 
@@ -60,10 +63,14 @@ class Game extends React.Component {
   }
 
   render() {
+    if(this.state.profileUser !== null){
+      return <Profile user={this.state.profileUser}/>;
+    }
+
     return (
       <Container>
-        <h2>Happy Coding! </h2>
-        <p>Get all users from secure end point:</p>
+        <h2>Welcome! </h2>
+        <p>Click on a user to see his/her profile.</p>
         {!this.state.users ? (
           <Spinner />
         ) : (
@@ -71,7 +78,9 @@ class Game extends React.Component {
             <Users>
               {this.state.users.map(user => {
                 return (
-                  <PlayerContainer key={user.id}>
+                  <PlayerContainer key={user.id} onClick={() => {
+                    this.setState({profileUser: user});}
+                  }>
                     <Player user={user} />
                   </PlayerContainer>
                 );

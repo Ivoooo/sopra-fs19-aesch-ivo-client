@@ -103,12 +103,13 @@ class Login extends React.Component {
         // user login successfully worked --> navigate to the route /game in the GameRouter
         this.props.history.push(`/game`);
       })
-      .catch(err => {
+      .catch(err => { /*
         if (err.message.match(/Failed to fetch/)) {
           alert("The server cannot be reached. Did you start it?");
         } else {
           alert(`Something went wrong during the login: ${err.message}`);
-        }
+        }*/
+        this.props.history.push(`/FailedRegister`);
       });
   }
 
