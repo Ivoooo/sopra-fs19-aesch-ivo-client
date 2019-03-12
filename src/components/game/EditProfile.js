@@ -77,7 +77,7 @@ class EditProfile extends React.Component {
         super();
         this.state = {
             birthday: null,
-            username: null
+            username: null,
         };
     }
     /**
@@ -85,14 +85,8 @@ class EditProfile extends React.Component {
      * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
      */
     edit() {
-        if (this.state.birthday == null) {
-            this.state.birthday = localStorage.getItem("birthday")
-        }
-        if (this.state.username == null) {
-            this.state.username = localStorage.getItem("username")
-        }
-
-        fetch(`${getDomain()}/users/login`, {
+        let id = localStorage.getItem("id");
+        fetch(`${getDomain()}/users/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
