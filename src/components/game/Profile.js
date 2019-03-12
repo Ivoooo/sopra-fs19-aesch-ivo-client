@@ -44,21 +44,44 @@ class Profile extends React.Component {
         };
     }
 
+    bday() {
+        if (this.props.user.birthday == null) {
+            return "Birthday not defined yet";
+        } else {
+            return this.props.user.birthday;
+        }
+    }
+
+    edit() {
+        if (localStorage.getItem("token") === this.props.user.token) {
+            return (
+                <Button
+                    width="100%"
+                    onClick={() => {
+                        this.editpage();
+                    }}
+                >
+                    Edit your profile
+                </Button>
+            );
+        }
+    }
+
+    editpage() {
+        this.props.history.push("/editProfile");
+    }
+
     back() {
         this.props.history.push("/game");
     }
 
     render() {
-        if (this.props.user.birthday == null) {
-            this.bday = "Birthday not defined yet"
-        } else {
-            this.bday = this.props.user.birthday
-        }
-
         return (
             <Container>
                 <h2>Profile Page</h2>
                 <p>Here are the user's infos:</p>
+
+                {this.edit()}
 
                 <Users>
                     <PlayerContainer>
@@ -82,7 +105,7 @@ class Profile extends React.Component {
                     <PlayerContainer>
                         Birthday
                     </PlayerContainer>
-                    {this.bday}
+                    {this.bday()}
                 </Users>
                 <Button
                     width="100%"

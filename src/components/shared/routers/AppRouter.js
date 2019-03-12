@@ -5,7 +5,7 @@ import GameRouter from "./GameRouter";
 import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../login/Login";
 import Profile from "../../game/Profile";
-import EditProfile from "../../game/Profile";
+import EditProfile from "../../game/EditProfile";
 import Register from "../../register/Register";
 import FailedRegister from "../../register/FailedRegister"
 
@@ -45,7 +45,7 @@ class AppRouter extends React.Component {
                   path="/editProfile"
                   render={() => (
                       <GameGuard>
-                          <EditProfile />
+                        <EditProfile />
                       </GameGuard>
                   )}
               />
@@ -58,16 +58,16 @@ class AppRouter extends React.Component {
                 </LoginGuard>
               )}
             />
-            <Route
-                path={"/register"}
-                render={() => (
-                    <Register />
-                )}
-            />
               <Route
                   path={"/failedRegister"}
                   render={() => (
                       <FailedRegister/>
+                  )}
+              />
+              <Route
+                  path={"/register"}
+                  render={() => (
+                      <Register/>
                   )}
               />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />
