@@ -42,7 +42,6 @@ class Profile extends React.Component {
         this.state = {
             user: null,
         };
-        this.bday = "asdf";
     }
 
     back() {

@@ -10,6 +10,14 @@ const Container = styled(BaseContainer)`
 `;
 
 class FailedRegister extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            msg: null,
+        };
+    }
+
+
     logout() {
         localStorage.removeItem("token");
         this.props.history.push("/login");
