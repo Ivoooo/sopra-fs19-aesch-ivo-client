@@ -99,7 +99,11 @@ class Login extends React.Component {
       .then(returnedUser => {
         const user = new User(returnedUser);
         // store the token into the local storage
-        localStorage.setItem("token", user.token);
+          localStorage.setItem("token", user.token);
+          localStorage.setItem("id", user.id);
+          localStorage.setItem("birthday", user.birthday);
+          localStorage.setItem("username", this.state.username);
+          localStorage.setItem("password", this.state.password);
         // user login successfully worked --> navigate to the route /game in the GameRouter
         this.props.history.push(`/game`);
       })
@@ -126,15 +130,6 @@ class Login extends React.Component {
     })
         .then(response => response.json())
         .then(returnedUser => {
-          const user = new User(returnedUser);
-          // store the token into the local storage
-          localStorage.setItem("token", user.token);
-            localStorage.setItem("id", user.id);
-            localStorage.setItem("birthday", user.birthday);
-            localStorage.setItem("username", this.state.username);
-            localStorage.setItem("password", this.state.password);
-
-          // user login successfully worked --> navigate to the route /game in the GameRouter
           this.props.history.push(`/register`);
         })
         .catch(err => {
