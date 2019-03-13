@@ -6,9 +6,11 @@ import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../login/Login";
 import Profile from "../../game/Profile";
 import EditProfile from "../../game/EditProfile";
+import SuccessRegister from "../../register/SuccessRegister";
 import Register from "../../register/Register";
-import FailedRegister from "../../register/FailedRegister"
-import EditProfileFail from "../../game/EditProfileFail"
+import FailedRegister from "../../register/FailedRegister";
+import EditProfileFail from "../../game/EditProfileFail";
+import FailedLogin from "../../login/FailedLogin";
 
 
 /**
@@ -68,15 +70,22 @@ class AppRouter extends React.Component {
               )}
             />
               <Route
+                  path="/register"
+                  exact
+                  render={() => (
+                          <Register />
+                  )}
+              />
+              <Route
                   path={"/failedRegister"}
                   render={() => (
                       <FailedRegister/>
                   )}
               />
               <Route
-                  path={"/register"}
+                  path={"/failedLogin"}
                   render={() => (
-                      <Register/>
+                      <FailedLogin/>
                   )}
               />
             <Route path="/" exact render={() => <Redirect to={"/game"} />} />

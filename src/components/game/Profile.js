@@ -54,7 +54,7 @@ class Profile extends React.Component {
     }
 
     edit() {
-        if (localStorage.getItem("username") === this.props.user.username) {
+        if (localStorage.getItem("token") === this.props.user.token) {
             return (
                 <Button
                     width="100%"

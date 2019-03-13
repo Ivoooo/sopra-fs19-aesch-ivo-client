@@ -9,35 +9,22 @@ const Container = styled(BaseContainer)`
   text-align: center;
 `;
 
-class FailedRegister extends React.Component {
-    constructor() {
-        super();
-
-        let err = "Oh no there was an error!";
-        if(localStorage.getItem("error") != null) {
-            err = localStorage.getItem("error");
-        }
-
-        this.state = {
-            msg: err
-        };
-    }
-
-    toRegister() {
-        localStorage.clear();
-        this.props.history.push("/register");
+class SuccessRegister extends React.Component {
+    logout() {
+        localStorage.removeItem("token");
+        this.props.history.push("/login");
     }
 
     render() {
         return (
             <Container>
-                <h2>Oh no! </h2>
-                <p>{this.state.msg}</p>
+                <h2>You registered! </h2>
+                <p>Great! Now you can go back and login.</p>
                 <div>
                     <Button
                         width="50%"
                         onClick={() => {
-                            this.toRegister();
+                            this.logout();
                         }}
                     >
                         Go back.
@@ -48,4 +35,4 @@ class FailedRegister extends React.Component {
     }
 }
 
-export default withRouter(FailedRegister);
+export default withRouter(SuccessRegister);

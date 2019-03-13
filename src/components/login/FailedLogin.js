@@ -23,9 +23,9 @@ class FailedRegister extends React.Component {
         };
     }
 
-    toRegister() {
+    toLogin() {
         localStorage.clear();
-        this.props.history.push("/register");
+        this.props.history.push("/login");
     }
 
     render() {
@@ -37,7 +37,7 @@ class FailedRegister extends React.Component {
                     <Button
                         width="50%"
                         onClick={() => {
-                            this.toRegister();
+                            this.toLogin();
                         }}
                     >
                         Go back.

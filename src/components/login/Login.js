@@ -121,39 +121,12 @@ class Login extends React.Component {
           alert(`Something went wrong during the login: ${err.message}`);
         }*/
         localStorage.setItem("error", err.message);
-        this.props.history.push('/FailedRegister');
+        this.props.history.push('/failedLogin');
       });
   }
 
   register() {
-    fetch(`${getDomain()}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
-      })
-    })
-        //.then(response => response.json())
-
-        .then(async response => {
-          if(!response.ok) {
-            let err = await response.json();
-            localStorage.setItem("error", err.message);
-            this.props.history.push('/FailedRegister');
-          }
-        })
-        .then(this.props.history.push(`/register`))
-        .catch(err => {
-          if (err.message.match(/Failed to fetch/)) {
-            alert("The server cannot be reached. Did you start it?");
-          } else {
-            alert(`Something went wrong during the login: ${err.message}`);
-          }
-          //this.props.history.push(`/FailedRegister`);
-        });
+    this.props.history.push('/register');
   }
 
   /**
@@ -181,6 +154,7 @@ class Login extends React.Component {
       <BaseContainer>
         <FormContainer>
           <Form>
+            <Label>LOGIN PAGE</Label>
             <Label>Username</Label>
             <InputField
               placeholder="Enter here.."
@@ -206,13 +180,12 @@ class Login extends React.Component {
               Login
             </Button>
               <Button
-                  disabled={!this.state.username || !this.state.password}
                   width="50%"
                   onClick={() => {
                     this.register();
                   }}
               >
-                Register
+                Go to Register instead
               </Button>
             </ButtonContainer>
           </Form>
