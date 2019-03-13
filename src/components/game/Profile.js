@@ -6,6 +6,7 @@ import Player from "../../views/Player";
 import { Spinner } from "../../views/design/Spinner";
 import { Button } from "../../views/design/Button";
 import { withRouter } from "react-router-dom";
+import User from "../shared/models/User";
 
 const Container = styled(BaseContainer)`
   color: white;
@@ -39,7 +40,7 @@ const PlayerContainer = styled.li`
 class Profile extends React.Component {
     constructor() {
         super();
-        this.state = {
+        this.props = {
             user: null,
         };
     }
@@ -53,7 +54,7 @@ class Profile extends React.Component {
     }
 
     edit() {
-        if (localStorage.getItem("token") === this.props.user.token) {
+        if (localStorage.getItem("username") === this.props.user.username) {
             return (
                 <Button
                     width="100%"

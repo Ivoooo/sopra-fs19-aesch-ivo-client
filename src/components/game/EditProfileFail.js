@@ -23,9 +23,9 @@ class FailedRegister extends React.Component {
         };
     }
 
-    logout() {
-        localStorage.clear();
-        this.props.history.push("/login");
+    back() {
+        localStorage.removeItem('error')
+        this.props.history.push("/EditProfile");
     }
 
     render() {
@@ -37,10 +37,10 @@ class FailedRegister extends React.Component {
                     <Button
                         width="50%"
                         onClick={() => {
-                            this.logout();
+                            this.back();
                         }}
                     >
-                        Go back.
+                        Go back to editing.
                     </Button>
                 </div>
             </Container>

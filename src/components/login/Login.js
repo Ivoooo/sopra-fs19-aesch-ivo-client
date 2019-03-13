@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { BaseContainer } from "../../helpers/layout";
-import { getDomain } from "../../helpers/getDomain";
+import {BaseContainer} from "../../helpers/layout";
+import {getDomain} from "../../helpers/getDomain";
 import User from "../shared/models/User";
-import { withRouter } from "react-router-dom";
-import { Button } from "../../views/design/Button";
+import {withRouter} from "react-router-dom";
+import {Button} from "../../views/design/Button";
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -77,7 +77,8 @@ class Login extends React.Component {
     super();
     this.state = {
       password: null,
-      username: null
+      username: null,
+      msg: null
     };
   }
   /**
@@ -92,20 +93,19 @@ class Login extends React.Component {
       },
       body: JSON.stringify({
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
       })
     })
-      .then(async response => {
-        if(!response.ok) {
-          const err = await response.json();
-          this.props.history.push(`/FailedRegister`);
-          alert(err.message)
-        }
-        return response.json()
-      })
+        .then(async response => {
+          if(!response.ok) {
+            throw await response.json();
+          }
+          return response.json();
+        })
       .then(returnedUser => {
         const user = new User(returnedUser);
         // store the token into the local storage
+          localStorage.clear();
           localStorage.setItem("token", user.token);
           localStorage.setItem("id", user.id);
           localStorage.setItem("birthday", user.birthday);
@@ -115,12 +115,13 @@ class Login extends React.Component {
         this.props.history.push(`/game`);
       })
       .catch(err => {
-        if (err.message.match(/Failed to fetch/)) {
+        /*if (err.message.match(/Failed to fetch/)) {
           alert("The server cannot be reached. Did you start it?");
         } else {
           alert(`Something went wrong during the login: ${err.message}`);
-        }
-        //this.props.history.push(`/FailedRegister`);
+        }*/
+        localStorage.setItem("error", err.message);
+        this.props.history.push('/FailedRegister');
       });
   }
 
@@ -135,17 +136,23 @@ class Login extends React.Component {
         password: this.state.password
       })
     })
-        .then(response => response.json())
-        .then(returnedUser => {
-          this.props.history.push(`/register`);
+        //.then(response => response.json())
+
+        .then(async response => {
+          if(!response.ok) {
+            let err = await response.json();
+            localStorage.setItem("error", err.message);
+            this.props.history.push('/FailedRegister');
+          }
         })
+        .then(this.props.history.push(`/register`))
         .catch(err => {
-          /*if (err.message.match(/Failed to fetch/)) {
+          if (err.message.match(/Failed to fetch/)) {
             alert("The server cannot be reached. Did you start it?");
           } else {
             alert(`Something went wrong during the login: ${err.message}`);
-          }*/
-          this.props.history.push(`/FailedRegister`);
+          }
+          //this.props.history.push(`/FailedRegister`);
         });
   }
 

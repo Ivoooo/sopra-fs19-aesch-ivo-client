@@ -5,6 +5,9 @@ import { getDomain } from "../../helpers/getDomain";
 import User from "../shared/models/User";
 import { withRouter } from "react-router-dom";
 import { Button } from "../../views/design/Button";
+import Profile from "./Profile";
+import Game from "./Game";
+import FailedRegister from "../register/FailedRegister";
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -78,12 +81,16 @@ class EditProfile extends React.Component {
         this.state = {
             birthday: null,
             username: null,
+            toProfile: false,
+            user: null,
+            profileUser: null
         };
     }
     /**
      * HTTP POST request is sent to the backend.
      * If the request is successful, a new user is returned to the front-end and its token is stored in the localStorage.
      */
+
     edit() {
         let id = localStorage.getItem("id");
         fetch(`${getDomain()}/users/${id}`, {
@@ -99,23 +106,47 @@ class EditProfile extends React.Component {
                 password: localStorage.getItem("password")
             })
         })
-            .then(response => response.json())
-            .then(returnedUser => {
-                const user = new User(returnedUser);
-                // store the token into the local storage
-                localStorage.setItem("token", user.token);
-                // user login successfully worked --> navigate to the route /game in the GameRouter
-                this.props.history.push(`/game`);
+            .then(async response => {
+                if(!response.ok) {
+                    throw await response.json();
+                } else {
+                    this.newProfile()
+                }
             })
             .catch(err => { /*
-        if (err.message.match(/Failed to fetch/)) {
-          alert("The server cannot be reached. Did you start it?");
-        } else {
-          alert(`Something went wrong during the login: ${err.message}`);
-        }*/
-                this.props.history.push(`/FailedRegister`);
+                if (err.message.match(/Failed to fetch/)) {
+                  alert("The server cannot be reached. Did you start it?");
+                } else {
+                  alert(`Something went wrong during the login: ${err.message}`);
+                }*/
+                localStorage.setItem("error", err.message);
+                this.props.history.push(`/editProfileFail`);
             });
     }
+
+    newProfile() {
+        //success
+        fetch(`${getDomain()}/users/${localStorage.getItem("id")}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then(response => response.json())
+            .then(returnedUser => {
+                localStorage.setItem("birthday", returnedUser.birthday);
+                localStorage.setItem("username", returnedUser.username);
+                this.return();
+            })
+            .catch(err => {
+                if (err.message.match(/Failed to fetch/)) {
+                    alert("The server cannot be reached. Did you start it?");
+                } else {
+                    alert(`Something went wrong during the login: ${err.message}`);
+                }
+            })
+    }
+
 
     return() {
         this.props.history.push(`/game`);

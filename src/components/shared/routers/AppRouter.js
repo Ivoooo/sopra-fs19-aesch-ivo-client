@@ -8,6 +8,7 @@ import Profile from "../../game/Profile";
 import EditProfile from "../../game/EditProfile";
 import Register from "../../register/Register";
 import FailedRegister from "../../register/FailedRegister"
+import EditProfileFail from "../../game/EditProfileFail"
 
 
 /**
@@ -45,7 +46,15 @@ class AppRouter extends React.Component {
                   path="/editProfile"
                   render={() => (
                       <GameGuard>
-                        <EditProfile />
+                          <EditProfile />
+                      </GameGuard>
+                  )}
+              />
+              <Route
+                  path="/editProfileFail"
+                  render={() => (
+                      <GameGuard>
+                          <EditProfileFail />
                       </GameGuard>
                   )}
               />

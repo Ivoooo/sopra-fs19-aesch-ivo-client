@@ -8,6 +8,7 @@ class User {
     this.username = null;
     this.token = null;
     this.status = null;
+    this.creationDate = null;
     this.games = null;
     this.moves = null;
     this.birthday = null;
