@@ -95,7 +95,14 @@ class Login extends React.Component {
         password: this.state.password
       })
     })
-      .then(response => response.json())
+      .then(async response => {
+        if(!response.ok) {
+          const err = await response.json();
+          this.props.history.push(`/FailedRegister`);
+          alert(err.message)
+        }
+        return response.json()
+      })
       .then(returnedUser => {
         const user = new User(returnedUser);
         // store the token into the local storage
@@ -107,13 +114,13 @@ class Login extends React.Component {
         // user login successfully worked --> navigate to the route /game in the GameRouter
         this.props.history.push(`/game`);
       })
-      .catch(err => { /*
+      .catch(err => {
         if (err.message.match(/Failed to fetch/)) {
           alert("The server cannot be reached. Did you start it?");
         } else {
           alert(`Something went wrong during the login: ${err.message}`);
-        }*/
-        this.props.history.push(`/FailedRegister`);
+        }
+        //this.props.history.push(`/FailedRegister`);
       });
   }
 
