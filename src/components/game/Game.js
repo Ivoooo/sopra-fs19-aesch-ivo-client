@@ -36,7 +36,7 @@ class Game extends React.Component {
   }
 
   logout() {
-    localStorage.clear()
+    localStorage.clear();
     this.props.history.push("/login");
   }
 
